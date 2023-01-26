@@ -36,7 +36,7 @@ List<WeekItem> separateWeeks(
   int baseWeekDay = minDate.weekday;
 
   if (baseWeekDay != 1) {
-    baseWeekDay = minDateCloned.weekday - (baseWeekDay - 1);
+    baseWeekDay = minDateCloned.weekday - 1;
     minDateCloned = minDateCloned.add(Duration(
       days: -baseWeekDay,
     ));
