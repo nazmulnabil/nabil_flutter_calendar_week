@@ -50,12 +50,14 @@ class _HomePageState extends State<HomePage> {
               controller: _controller,
               height: 100,
               showMonth: true,
-              minDate: DateTime.now().add(
-                Duration(days: -365),
-              ),
-              maxDate: DateTime.now().add(
-                Duration(days: 365),
-              ),
+              // minDate: DateTime.now().add(
+              //   Duration(days: -365),
+              // ),
+              // maxDate: DateTime.now().add(
+              //   Duration(days: 365),
+              // ),
+              minDate: DateTime(2023, 1, 29),
+              maxDate: DateTime(2023, 2, 4),
               todayBackgroundColor: Colors.deepOrange.withOpacity(0.7),
               todayDateStyle: const TextStyle(
                 color: Colors.white,

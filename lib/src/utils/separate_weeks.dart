@@ -63,8 +63,7 @@ List<WeekItem> separateWeeks(
       count = 1;
 
       /// Add last day of week to list day of week
-      // _dayOfWeek.add(dayOfWeek[minDateCloned.weekday - 1]);
-      _dayOfWeek.add(dayOfWeek[minDateCloned.weekday]);
+      _dayOfWeek.add(dayOfWeek[minDateCloned.weekday - 1]);
 
       /// Add last day to list days
       // _days.add(minDateCloned.add(Duration(days: -1)));
