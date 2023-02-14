@@ -71,7 +71,9 @@ Example:
   DateTime get selectedDate => _selectedDate ?? _today;
 
   /// get [_weeks]
-  List<DateTime?> get rangeWeekDate => _weeks.isNotEmpty ? _weeks[_currentWeekIndex].days.where((ele) => ele != null).toList() : [];
+  List<DateTime?> get rangeWeekDate => _weeks.isNotEmpty
+      ? _weeks[_currentWeekIndex].days.where((ele) => ele != null).toList()
+      : [];
 
   /// [Callback] for update widget event
   late Function(DateTime?) _widgetJumpToDate;
@@ -155,6 +157,8 @@ class CalendarWeek extends StatefulWidget {
   /// Condition show month
   final bool monthDisplay;
 
+  final bool isTablet;
+
   /// List contain indexes of weekends from days titles list
   final List<int> weekendsIndexes;
 
@@ -199,6 +203,7 @@ class CalendarWeek extends StatefulWidget {
       this.daysOfWeek,
       this.months,
       this.monthDisplay,
+      this.isTablet,
       this.weekendsIndexes,
       this.weekendsStyle,
       this.marginMonth,
@@ -218,13 +223,17 @@ class CalendarWeek extends StatefulWidget {
           DateTime? minDate,
           double height = 100,
           Widget Function(DateTime)? monthViewBuilder,
-          TextStyle dayOfWeekStyle = const TextStyle(color: Colors.blue, fontWeight: FontWeight.w600),
+          TextStyle dayOfWeekStyle =
+              const TextStyle(color: Colors.blue, fontWeight: FontWeight.w600),
           FractionalOffset monthAlignment = FractionalOffset.center,
-          TextStyle dateStyle = const TextStyle(color: Colors.blue, fontWeight: FontWeight.w400),
-          TextStyle todayDateStyle = const TextStyle(color: Colors.orange, fontWeight: FontWeight.w400),
+          TextStyle dateStyle =
+              const TextStyle(color: Colors.blue, fontWeight: FontWeight.w400),
+          TextStyle todayDateStyle = const TextStyle(
+              color: Colors.orange, fontWeight: FontWeight.w400),
           Color todayBackgroundColor = Colors.black12,
           Color pressedDateBackgroundColor = Colors.blue,
-          TextStyle pressedDateStyle = const TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+          TextStyle pressedDateStyle =
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
           Color dateBackgroundColor = Colors.transparent,
           Function(DateTime)? onDatePressed,
           Function(DateTime)? onDateLongPressed,
@@ -232,8 +241,10 @@ class CalendarWeek extends StatefulWidget {
           List<String> dayOfWeek = dayOfWeekDefault,
           List<String> month = monthDefaults,
           bool showMonth = true,
+          bool isTablet = false,
           List<int> weekendsIndexes = weekendsIndexesDefault,
-          TextStyle weekendsStyle = const TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
+          TextStyle weekendsStyle =
+              const TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
           EdgeInsets marginMonth = const EdgeInsets.symmetric(vertical: 4),
           EdgeInsets marginDayOfWeek = const EdgeInsets.symmetric(vertical: 4),
           BoxShape dayShapeBorder = BoxShape.circle,
@@ -260,6 +271,7 @@ class CalendarWeek extends StatefulWidget {
         dayOfWeek,
         month,
         showMonth,
+        isTablet,
         weekendsIndexes,
         weekendsStyle,
         marginMonth,
@@ -286,11 +298,13 @@ class _CalendarWeekState extends State<CalendarWeek> {
 
   CalendarWeekController _defaultCalendarController = CalendarWeekController();
 
-  CalendarWeekController get controller => widget.controller ?? _defaultCalendarController;
+  CalendarWeekController get controller =>
+      widget.controller ?? _defaultCalendarController;
 
   void _jumToDateHandler(DateTime? dateTime) {
     _cacheStream.add(dateTime);
-    _pageController.animateToPage(widget.controller!._currentWeekIndex, duration: Duration(milliseconds: 300), curve: Curves.ease);
+    _pageController.animateToPage(widget.controller!._currentWeekIndex,
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   void _setUp() {
@@ -307,7 +321,8 @@ class _CalendarWeekState extends State<CalendarWeek> {
 
       /// [_currentWeekIndex] is index of week in [List] weeks contain today
 
-      .._currentWeekIndex = findCurrentWeekIndexByDate(controller._today, controller._weeks)
+      .._currentWeekIndex =
+          findCurrentWeekIndexByDate(controller._today, controller._weeks)
       .._widgetJumpToDate = _jumToDateHandler
       .._hasClient = true;
 
@@ -348,8 +363,11 @@ class _CalendarWeekState extends State<CalendarWeek> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           // Month
-          (widget.monthDisplay && widget.monthViewBuilder != null && weeks.days.firstWhere((el) => el != null) != null)
-              ? widget.monthViewBuilder!(weeks.days.firstWhere((el) => el != null)!)
+          (widget.monthDisplay &&
+                  widget.monthViewBuilder != null &&
+                  weeks.days.firstWhere((el) => el != null) != null)
+              ? widget
+                  .monthViewBuilder!(weeks.days.firstWhere((el) => el != null)!)
               : _monthItem(weeks.month),
 
           /// Day of week layout
@@ -388,10 +406,14 @@ class _CalendarWeekState extends State<CalendarWeek> {
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Container(
-          width: 50,
+          width: widget.isTablet ? 80 : 50, // changes here
           child: Text(
             title,
-            style: widget.weekendsIndexes.indexOf(widget.daysOfWeek.indexOf(title)) != -1 ? widget.weekendsStyle : widget.dayOfWeekStyle,
+            style: widget.weekendsIndexes
+                        .indexOf(widget.daysOfWeek.indexOf(title)) !=
+                    -1
+                ? widget.weekendsStyle
+                : widget.dayOfWeekStyle,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
           ),
@@ -420,8 +442,12 @@ class _CalendarWeekState extends State<CalendarWeek> {
       decorationAlignment: () {
         /// If date is contain in decorations list, use decorations Alignment
         if (widget.decorations.isNotEmpty) {
-          final List<DecorationItem> matchDate = widget.decorations.where((ele) => compareDate(ele.date, date)).toList();
-          return matchDate.isNotEmpty ? matchDate[0].decorationAlignment : FractionalOffset.center;
+          final List<DecorationItem> matchDate = widget.decorations
+              .where((ele) => compareDate(ele.date, date))
+              .toList();
+          return matchDate.isNotEmpty
+              ? matchDate[0].decorationAlignment
+              : FractionalOffset.center;
         }
         return FractionalOffset.center;
       }(),
@@ -437,7 +463,9 @@ class _CalendarWeekState extends State<CalendarWeek> {
       decoration: () {
         /// If date is contain in decorations list, use decorations Widget
         if (widget.decorations.isNotEmpty) {
-          final List<DecorationItem> matchDate = widget.decorations.where((ele) => compareDate(ele.date, date)).toList();
+          final List<DecorationItem> matchDate = widget.decorations
+              .where((ele) => compareDate(ele.date, date))
+              .toList();
           return matchDate.isNotEmpty ? matchDate[0].decoration : null;
         }
         return null;
