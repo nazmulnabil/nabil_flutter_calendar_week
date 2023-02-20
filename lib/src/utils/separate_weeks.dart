@@ -33,14 +33,15 @@ List<WeekItem> separateWeeks(
     minDate.microsecond,
   );
 
-  int baseWeekDay = minDate.weekday;
-
-  if (baseWeekDay != 1) {
-    baseWeekDay = minDateCloned.weekday - 1;
-    minDateCloned = minDateCloned.add(Duration(
-      days: -baseWeekDay,
-    ));
-  }
+  ///
+  // int baseWeekDay = minDate.weekday;
+  //
+  // if (baseWeekDay != 1) {
+  //   baseWeekDay = minDateCloned.weekday - 1;
+  //   minDateCloned = minDateCloned.add(Duration(
+  //     days: -baseWeekDay,
+  //   ));
+  // }
 
   /// Read from [minDate] to [maxDate]
   while (minDateCloned.compareTo(maxDate) < 1) {
@@ -50,7 +51,8 @@ List<WeekItem> separateWeeks(
       _dayOfWeek.add(dayOfWeek[minDateCloned.weekday - 1]);
 
       /// Add day of week to list days
-      _days.add(minDateCloned.add(Duration(days: -1)));
+      // _days.add(minDateCloned.add(Duration(days: -1)));
+      _days.add(minDateCloned);
       count++;
     }
 
@@ -64,7 +66,8 @@ List<WeekItem> separateWeeks(
       _dayOfWeek.add(dayOfWeek[minDateCloned.weekday - 1]);
 
       /// Add last day to list days
-      _days.add(minDateCloned.add(Duration(days: -1)));
+      // _days.add(minDateCloned.add(Duration(days: -1)));
+      _days.add(minDateCloned);
 
       /// Add the week to list week
       _weeks.add(WeekItem(
