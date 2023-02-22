@@ -286,7 +286,7 @@ class CalendarWeek extends StatefulWidget {
   _CalendarWeekState createState() => _CalendarWeekState();
 }
 
-class _CalendarWeekState extends State<CalendarWeek> {
+class _CalendarWeekState extends State<CalendarWeek> with AutomaticKeepAliveClientMixin<CalendarWeek>{
   /// [_streamController] for emit date press event
   final CacheStream<DateTime?> _cacheStream = CacheStream<DateTime?>();
 
@@ -479,4 +479,8 @@ class _CalendarWeekState extends State<CalendarWeek> {
     super.dispose();
     _cacheStream.close();
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }
