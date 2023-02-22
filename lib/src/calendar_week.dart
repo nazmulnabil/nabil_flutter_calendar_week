@@ -396,7 +396,9 @@ class _CalendarWeekState extends State<CalendarWeek> {
         margin: widget.marginDayOfWeek,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: dayOfWeek.map(_dayOfWeekItem).toList(),
+          children: dayOfWeek
+              .map((day) => Expanded(child: _dayOfWeekItem(day)))
+              .toList(),
         ),
       );
 
@@ -423,7 +425,7 @@ class _CalendarWeekState extends State<CalendarWeek> {
   /// Date layout
   Widget _dates(List<DateTime?> dates) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: dates.map(_dateItem).toList(),
+        children: dates.map((day) => Expanded(child: _dateItem(day))).toList(),
       );
 
   /// Date item layout
